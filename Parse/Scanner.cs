@@ -1,5 +1,5 @@
 // Scanner -- The lexical analyzer for the Scheme printer and interpreter
-// Madeline
+
 using System;
 using System.IO;
 using Tokens;
@@ -69,9 +69,20 @@ namespace Parse
                 }
 
                 // String constants
-                else if (ch == '"')
+                else if ((char)ch == '"')
                 {
-                    // TODO: scan a string into the buffer variable buf
+                    // scan a string into the buffer variable buf
+                    int i = 0;
+                    ch = In.Read();
+                    char c;
+                    while ((char)ch != '"')
+                    {
+                        c = (char)ch;
+                        //c = Char.ToLower(c);
+                        buf[i] = c;
+                        i++;
+                        ch = In.Read();
+                    }
                     return new StringToken(new String(buf, 0, 0));
                 }
 
@@ -80,9 +91,25 @@ namespace Parse
                 else if (ch >= '0' && ch <= '9')
                 {
                     int i = ch - '0';
-                    // TODO: scan the number and convert it to an integer
+                    int temp;
+                    ch = In.Read();
+                    while (ch >= '0' && ch <= '9')
+                    {
+                        temp = ch - '0';
+                        i = i*10 + temp;
+                        ch = In.Read();
+                    }
 
-                    // make sure that the character following the integer
+                    // Possible thought:
+                    //while (ch >= '0' && ch <= '9') {
+                    //  buf[i] = ch;
+                    //  i++;
+                    //  ch = In.Read();
+                    //}
+                    //String s = new String(buf)
+                    //i = Int32.Parse(buf.Text)
+
+                    // TODO: make sure that the character following the integer
                     // is not removed from the input stream
                     return new IntToken(i);
                 }
