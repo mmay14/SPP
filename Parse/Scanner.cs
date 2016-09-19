@@ -29,31 +29,33 @@ namespace Parse
                 // buffer, but reading individual characters from the
                 // input stream is easier.
                 ch = In.Read();
-   
-                // TODO: skip white space and comments
 
                 if (ch == -1)
                     return null;
-        
+                // TODO: skip white space
+               else if (ch == 0 || ch == 9 || ch == 10 || ch == 12 || ch == 13 || ch == 32)
+                    return getNextToken();
+                // TODO: skip comments
+
                 // Special characters
-                else if (ch == '\'')
+                else if ((char)ch == '\'')
                     return new Token(TokenType.QUOTE);
-                else if (ch == '(')
+                else if ((char)ch == '(')
                     return new Token(TokenType.LPAREN);
-                else if (ch == ')')
+                else if ((char)ch == ')')
                     return new Token(TokenType.RPAREN);
-                else if (ch == '.')
+                else if ((char)ch == '.')
                     // We ignore the special identifier `...'.
                     return new Token(TokenType.DOT);
                 
                 // Boolean constants
-                else if (ch == '#')
+                else if ((char)ch == '#')
                 {
                     ch = In.Read();
 
-                    if (ch == 't')
+                    if ((char)ch == 't')
                         return new Token(TokenType.TRUE);
-                    else if (ch == 'f')
+                    else if ((char)ch == 'f')
                         return new Token(TokenType.FALSE);
                     else if (ch == -1)
                     {
@@ -78,12 +80,12 @@ namespace Parse
                     while ((char)ch != '"')
                     {
                         c = (char)ch;
-                        //c = Char.ToLower(c);
+                        c = Char.ToLower(c);
                         buf[i] = c;
                         i++;
                         ch = In.Read();
                     }
-                    return new StringToken(new String(buf, 0, 0));
+                    return new StringToken(new String(buf, 0, i));
                 }
 
     
@@ -92,12 +94,15 @@ namespace Parse
                 {
                     int i = ch - '0';
                     int temp;
-                    ch = In.Read();
+                    // make sure that the character following the integer
+                    // is not removed from the input stream
+                    ch = In.Peek();
                     while (ch >= '0' && ch <= '9')
                     {
+                        ch = In.Read();
                         temp = ch - '0';
                         i = i*10 + temp;
-                        ch = In.Read();
+                        ch = In.Peek();
                     }
 
                     // Possible thought:
@@ -109,13 +114,11 @@ namespace Parse
                     //String s = new String(buf)
                     //i = Int32.Parse(buf.Text)
 
-                    // TODO: make sure that the character following the integer
-                    // is not removed from the input stream
                     return new IntToken(i);
                 }
         
                 // Identifiers
-                else if (ch >= 'A' && ch <= 'Z'
+                else if ((char)ch >= 'A' && (char)ch <= 'Z'
                          // or ch is some other valid first character
                          // for an identifier
                          ) {
