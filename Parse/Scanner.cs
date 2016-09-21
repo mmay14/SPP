@@ -32,11 +32,15 @@ namespace Parse
 
                 if (ch == -1)
                     return null;
-                // TODO: skip white space
+                // Skip white space
                else if (ch == 0 || ch == 9 || ch == 10 || ch == 12 || ch == 13 || ch == 32)
                     return getNextToken();
-                // TODO: skip comments
-
+                // Skip comments
+                else if ((char)ch == ';')
+                {
+                    In.ReadLine();
+                    return getNextToken();
+                }
                 // Special characters
                 else if ((char)ch == '\'')
                     return new Token(TokenType.QUOTE);
@@ -105,29 +109,48 @@ namespace Parse
                         ch = In.Peek();
                     }
 
-                    // Possible thought:
-                    //while (ch >= '0' && ch <= '9') {
-                    //  buf[i] = ch;
-                    //  i++;
-                    //  ch = In.Read();
-                    //}
-                    //String s = new String(buf)
-                    //i = Int32.Parse(buf.Text)
-
                     return new IntToken(i);
                 }
         
+                // TODO: figure out specifics on identifiers; look up more about identifier rules
                 // Identifiers
-                else if ((char)ch >= 'A' && (char)ch <= 'Z'
+                else if (((char)ch >= 'A' && (char)ch <= 'Z')
+                        || ((char)ch >= 'a' && (char)ch <= 'z')
                          // or ch is some other valid first character
                          // for an identifier
-                         ) {
-                    // TODO: scan an identifier into the buffer
-
+                         // ! $ % & * + - . / : < = > ? @ ^ _ ~
+                         || (char)ch == '!' || (char)ch == '$' || (char)ch == '%'
+                         || (char)ch == '&' || (char)ch == '*' || (char)ch == '+'
+                         || (char)ch == '-' || (char)ch == '.' || (char)ch == '/'
+                         || (char)ch == ':' || (char)ch == '<' || (char)ch == '='
+                         || (char)ch == '>' || (char)ch == '?' || (char)ch == '@'
+                         || (char)ch == '^' || (char)ch == '_' || (char)ch == '~')
+                {
+                    // scan an identifier into the buffer
+                    int i = 0;
+                    Char c = (char)ch;
+                    buf[i] = c;
+                    i++;
+                    ch = In.Peek();
+                    while (((char)ch >= 'A' && (char)ch <= 'Z')
+                         || ((char)ch >= 'a' && (char)ch <= 'z')
+                         || (char)ch == '!' || (char)ch == '$' || (char)ch == '%'
+                         || (char)ch == '&' || (char)ch == '*' || (char)ch == '+'
+                         || (char)ch == '-' || (char)ch == '.' || (char)ch == '/'
+                         || (char)ch == ':' || (char)ch == '<' || (char)ch == '='
+                         || (char)ch == '>' || (char)ch == '?' || (char)ch == '@'
+                         || (char)ch == '^' || (char)ch == '_' || (char)ch == '~')
+                    {
+                        ch = In.Read();
+                        c = (char)ch;
+                        buf[i] = c;
+                        i++;
+                        ch = In.Peek();
+                    }
                     // make sure that the character following the integer
                     // is not removed from the input stream
 
-                    return new IdentToken(new String(buf, 0, 0));
+                    return new IdentToken(new String(buf, 0, i));
                 }
     
                 // Illegal character
