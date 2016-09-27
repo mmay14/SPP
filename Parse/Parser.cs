@@ -47,14 +47,66 @@ namespace Parse
   
         public Node parseExp()
         {
-            // TODO: write code for parsing an exp
-            return null;
+            return parseExp(scanner.getNextToken());
         }
-  
+
+        public Node parseExp(Token tok)
+        {
+            // TODO: write code for parsing an exp
+            if (tok.getType() == TokenType.LPAREN)
+            {
+                return parseRest();
+            }
+            else if (tok.getType() == TokenType.DOT)
+            {
+                
+            }
+            else if (tok.getType() == TokenType.QUOTE)
+            {
+                
+            }
+            else if (tok.getType() == TokenType.TRUE)
+            {
+                return new BoolLit(true);
+            }
+            else if (tok.getType() == TokenType.FALSE)
+            {
+                return new BoolLit(false);
+            }
+            else if (tok.getType() == TokenType.INT)
+            {
+                return new IntLit(tok.getIntVal());
+            }
+            else if (tok.getType() == TokenType.STRING)
+            {
+                return new StringLit(tok.getStringVal());
+            }
+            else if (tok.getType() == TokenType.IDENT)
+            {
+                return new Ident(tok.getName());
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         protected Node parseRest()
         {
+            
+        }
+  
+        private Node parseRest(Token tok)
+        {
             // TODO: write code for parsing a rest
-            return null;
+            if ()
+            {
+                
+            }
+            else if (tok.getType() == TokenType.RPAREN)
+            {
+
+            }
         }
 
         // TODO: Add any additional methods you might need.
