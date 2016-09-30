@@ -93,20 +93,57 @@ namespace Parse
 
         protected Node parseRest()
         {
-            
+            return parseRest(scanner.getNextToken());
         }
   
         private Node parseRest(Token tok)
         {
             // TODO: write code for parsing a rest
-            if ()
+
+            //if token is null then the end of file is reached since there is nothing more to read
+            if (tok == null)
             {
-                
+                Console.Error.WriteLine("Error Parsing Token: End of File");
+                return null;
             }
-            else if (tok.getType() == TokenType.RPAREN)
+
+            //if token is a ')' then end of expression is reached and a nil node '()' is returned
+            if (tok.getType() == TokenType.RPAREN)
             {
+                return new Nil();
+            }
+
+         
+            //if the token is not null or ')' then it is a exp
+            //if the parsed expression is null then end of file is reached becuase there are no more expressions to read
+            if (parseExp(tok).isNull())
+            {
+                Console.Error.WriteLine("Error Parsing Expression: End file");
+                return null;
+            }
+
+            //Look ahead part
+            Token nextToken = scanner.getNextToken();
+
+            // valid expressions
+            //|exp rest
+            //|exp . exp 
+
+            if (nextToken.getType() == TokenType.DOT)
+            {
+                nextToken = scanner.getNextToken();
+                if (!parseExp(nextToken).isNull())
+                {
+                    Console.Error.WriteLine("Error Parsing: Missing Exp after period");
+                    return null;
+                }
+                if (nextToken.getType() != TokenType.RPAREN)
+                {
+                    Console.Error.WriteLine("Error Parsing: Missing Right Parenthesis");
+                }
 
             }
+
         }
 
         // TODO: Add any additional methods you might need.
