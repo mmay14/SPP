@@ -14,6 +14,12 @@
 //         |  string_constant
 //         |  identifier
 //    rest -> )
+//         |  exp rest
+//         |  exp . exp )
+//
+//
+//**Below is the original grammar for rest but needed to be changed to above version
+//    rest -> )
 //         |  exp+ [. exp] )
 //
 // and builds a parse tree.  Lists of the form (rest) are further
@@ -50,20 +56,16 @@ namespace Parse
             return parseExp(scanner.getNextToken());
         }
 
-        public Node parseExp(Token tok)
+        private Node parseExp(Token tok)
         {
             // TODO: write code for parsing an exp
             if (tok.getType() == TokenType.LPAREN)
             {
                 return parseRest();
             }
-            else if (tok.getType() == TokenType.DOT)
-            {
-                
-            }
             else if (tok.getType() == TokenType.QUOTE)
             {
-                
+                return new Cons(new Ident("quote"), new Cons(parseExp(), new Nil()));
             }
             else if (tok.getType() == TokenType.TRUE)
             {
@@ -85,6 +87,16 @@ namespace Parse
             {
                 return new Ident(tok.getName());
             }
+            else if (tok.getType() == TokenType.DOT)
+            {
+                Console.Error.WriteLine("Error Parsing: Illegal quote character.");
+                parseExp();
+            }
+            else if (tok.getType() == TokenType.RPAREN)
+            {
+                Console.Error.WriteLine("Error Parsing: Illegal right parenthesis.");
+                parseExp();
+            }
             else
             {
                 return null;
@@ -93,7 +105,7 @@ namespace Parse
 
         protected Node parseRest()
         {
-            
+            return parseRest(scanner.getNextToken());
         }
   
         private Node parseRest(Token tok)
@@ -106,6 +118,10 @@ namespace Parse
             else if (tok.getType() == TokenType.RPAREN)
             {
 
+            }
+            else
+            {
+                return null;
             }
         }
 
