@@ -154,10 +154,25 @@ namespace Parse
                     Console.Error.WriteLine("Error Parsing: Missing Right Parenthesis");
                 }
 
+                //get the rest of the statement
+                do
+                {
+                    var exp = parseExp(tok);
+                    if (exp == null)
+                        return null;
+                    tok = scanner.getNextToken();
+                } while (tok != null || tok.getType() != TokenType.RPAREN);
+            }
+            else
+            {
+                if (parseRest(tok) == null)
+                    return null;
             }
 
+            //add a cons node with the exp on one branch and the rest on another branch
+            return new Cons(parseExp(tok), parseRest(tok));
         }
-
+        
         // TODO: Add any additional methods you might need.
     }
 }
