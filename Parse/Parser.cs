@@ -58,7 +58,6 @@ namespace Parse
 
         private Node parseExp(Token tok)
         {
-            // TODO: write code for parsing an exp
             if (tok.getType() == TokenType.LPAREN)
             {
                 return parseRest();
@@ -89,7 +88,7 @@ namespace Parse
             }
             else if (tok.getType() == TokenType.DOT)
             {
-                Console.Error.WriteLine("Error Parsing: Illegal quote character.");
+                Console.Error.WriteLine("Error Parsing: Illegal dot character.");
                 parseExp();
             }
             else if (tok.getType() == TokenType.RPAREN)
@@ -110,8 +109,6 @@ namespace Parse
   
         private Node parseRest(Token tok)
         {
-            // TODO: write code for parsing a rest
-
             //if token is null then the end of file is reached since there is nothing more to read
             if (tok == null)
             {
@@ -127,7 +124,7 @@ namespace Parse
 
          
             //if the token is not null or ')' then it is a exp
-            //if the parsed expression is null then end of file is reached becuase there are no more expressions to read
+            //if the parsed expression is null then end of file is reached because there are no more expressions to read
             if (parseExp(tok).isNull())
             {
                 Console.Error.WriteLine("Error Parsing Expression: End file");
@@ -139,41 +136,40 @@ namespace Parse
 
             // valid expressions
             //|exp rest
-            //|exp . exp 
+            //|exp . exp )
 
             if (nextToken.getType() == TokenType.DOT)
             {
                 nextToken = scanner.getNextToken();
-                if (!parseExp(nextToken).isNull())
+                if (parseExp(nextToken).isNull())
                 {
                     Console.Error.WriteLine("Error Parsing: Missing Exp after period");
                     return null;
                 }
+                nextToken = scanner.getNextToken();
                 if (nextToken.getType() != TokenType.RPAREN)
                 {
                     Console.Error.WriteLine("Error Parsing: Missing Right Parenthesis");
                 }
 
-                //get the rest of the statement
-                do
+                //get the rest of the statement if not a right parenthesis
+                while (nextToken != null || nextToken.getType() != TokenType.RPAREN)
                 {
-                    var exp = parseExp(tok);
+                    var exp = parseExp(nextToken);
                     if (exp == null)
                         return null;
-                    tok = scanner.getNextToken();
-                } while (tok != null || tok.getType() != TokenType.RPAREN);
+                    nextToken = scanner.getNextToken();
+                }
             }
             else
             {
-                if (parseRest(tok) == null)
+                if (parseRest(nextToken) == null)
                     return null;
             }
 
             //add a cons node with the exp on one branch and the rest on another branch
-            return new Cons(parseExp(tok), parseRest(tok));
+            return new Cons(parseExp(tok), parseRest(nextToken));
         }
-        
-        // TODO: Add any additional methods you might need.
     }
 }
 

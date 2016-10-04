@@ -29,6 +29,15 @@ namespace Tree
         {
             // TODO: implement this function and any helper functions
             // you might need.
+            if (!car.isSymbol())
+            {
+                form = new Regular();
+            }
+            else
+            {
+                string name = car.getName();
+                // TODO
+            }
         }
  
         public override void print(int n)
@@ -39,6 +48,32 @@ namespace Tree
         public override void print(int n, bool p)
         {
             form.print(this, n, p);
+        }
+
+        public override bool isPair()
+        {
+            return true;
+        }
+
+        public override Node getCar()
+        {
+            return car;
+        }
+
+        public override Node getCdr()
+        {
+            return cdr;
+        }
+
+        public override void setCar(Node a)
+        {
+            car = a;
+            parseList();
+        }
+
+        public override void setCdr(Node d)
+        {
+            cdr = d;
         }
     }
 }

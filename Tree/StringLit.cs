@@ -21,6 +21,11 @@ namespace Tree
 
             Console.WriteLine("\"" + stringVal + "\"");
         }
+
+        public override bool isString()
+        {
+            return true;
+        }
     }
 }
 

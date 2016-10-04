@@ -32,7 +32,6 @@ namespace Tree
         // evaluating them, we need some helper functions that test
         // the type of a node and that extract some information.
 
-        // TODO: implement these in the appropriate subclasses to return true.
         public virtual bool isBool()   { return false; }  // BoolLit
         public virtual bool isNumber() { return false; }  // IntLit
         public virtual bool isString() { return false; }  // StringLit
@@ -42,7 +41,7 @@ namespace Tree
 
         // TODO: Report an error in these default methods and implement them
         // in class Cons.  After setCar, a Cons cell needs to be `parsed' again
-        // using parseList.
+        // using parseList. 
         public virtual Node getCar() { return null; }
         public virtual Node getCdr() { return null; }
         public virtual void setCar(Node a) { }

@@ -21,5 +21,10 @@ namespace Tree
 
             Console.WriteLine(intVal);
         }
+
+        public override bool isNumber()
+        {
+            return true;
+        }
     }
 }
