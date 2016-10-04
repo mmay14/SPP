@@ -27,8 +27,6 @@ namespace Tree
         // parsing up to the interpreter.
         void parseList()
         {
-            // TODO: implement this function and any helper functions
-            // you might need.
             if (!car.isSymbol())
             {
                 form = new Regular();
@@ -36,7 +34,43 @@ namespace Tree
             else
             {
                 string name = car.getName();
-                // TODO
+                if (name.Equals("quote"))
+                {
+                    form = new Quote();
+                }
+                else if (name.Equals("lambda"))
+                {
+                    form = new Lambda();
+                }
+                else if (name.Equals("begin"))
+                {
+                    form = new Begin();
+                }
+                else if (name.Equals("if"))
+                {
+                    form = new If();
+                }
+                else if (name.Equals("let"))
+                {
+                    form = new Let();
+                }
+                else if (name.Equals("cond"))
+                {
+                    form = new Cond();
+                }
+                else if (name.Equals("define"))
+                {
+                    form = new Define();
+                }
+                else if (name.Equals("set!"))
+                {
+                    form = new Set();
+                }
+                else
+                {
+                    form = new Regular();
+                }
+
             }
         }
  
