@@ -67,6 +67,7 @@
     <Compile Include="Tree\IntLit.cs" />
     <Compile Include="Tree\Nil.cs" />
     <Compile Include="Tree\Node.cs" />
+    <Compile Include="Tree\PrettyPrinter.cs" />
     <Compile Include="Tree\StringLit.cs" />
   </ItemGroup>
   <ItemGroup>
