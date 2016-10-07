@@ -141,16 +141,26 @@ namespace Parse
             // valid expressions
             //|exp rest
             //|exp . exp )
-
+            if (nextToken == null)
+            {
+                Console.Error.WriteLine("Error Parsing: end of file in line");
+                return null;
+            }
+            Node cdr;
             if (nextToken.getType() == TokenType.DOT)
             {
-                nextToken = scanner.getNextToken();
-                if (parseExp(nextToken).isNull())
+                cdr = parseExp();
+                if (cdr.isNull())
                 {
                     Console.Error.WriteLine("Error Parsing: Missing Exp after period");
                     return null;
                 }
                 nextToken = scanner.getNextToken();
+                if (nextToken == null)
+                {
+                    Console.Error.WriteLine("Error Parsing: end of file in line");
+                    return null;
+                }
                 if (nextToken.getType() != TokenType.RPAREN)
                 {
                     Console.Error.WriteLine("Error Parsing: Missing Right Parenthesis");
@@ -164,15 +174,20 @@ namespace Parse
                         return null;
                     nextToken = scanner.getNextToken();
                 }
+                if (nextToken == null)
+                {
+                    return null;
+                }
             }
             else
             {
-                if (parseRest(nextToken) == null)
+                cdr = parseRest(nextToken);
+                if (cdr == null)
                     return null;
             }
 
             //add a cons node with the exp on one branch and the rest on another branch
-            return new Cons(parseExp(tok), parseRest(nextToken));
+            return new Cons(parseExp(tok), cdr);
         }
     }
 }
