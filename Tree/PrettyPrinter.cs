@@ -15,8 +15,7 @@ namespace Tree
             {
                 indention(indent);
                 Console.WriteLine("(begin");
-                indent = Math.Abs(indent) + 4;
-                printRest(node,indent);
+                printRest(node, Math.Abs(indent) + 4);
             }
             else
                 printRegular(node, indent, hasLeftParen);

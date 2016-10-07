@@ -93,12 +93,12 @@ namespace Parse
             else if (tok.getType() == TokenType.DOT)
             {
                 Console.Error.WriteLine("Error Parsing: Illegal dot character.");
-                parseExp();
+                return parseExp();
             }
             else if (tok.getType() == TokenType.RPAREN)
             {
                 Console.Error.WriteLine("Error Parsing: Illegal right parenthesis.");
-                parseExp();
+                return parseExp();
             }
             else
             {
