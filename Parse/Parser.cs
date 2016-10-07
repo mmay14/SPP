@@ -126,10 +126,11 @@ namespace Parse
                 return new Nil();
             }
 
-         
+
             //if the token is not null or ')' then it is a exp
             //if the parsed expression is null then end of file is reached because there are no more expressions to read
-            if (parseExp(tok).isNull())
+            var exp = parseExp(tok);
+            if (exp.isNull())
             {
                 Console.Error.WriteLine("Error Parsing Expression: End file");
                 return null;
@@ -164,13 +165,14 @@ namespace Parse
                 if (nextToken.getType() != TokenType.RPAREN)
                 {
                     Console.Error.WriteLine("Error Parsing: Missing Right Parenthesis");
+                    cdr.print(2);
+                    Console.Error.WriteLine("Waiting for matching right parenthesis");
                 }
 
                 //get the rest of the statement if not a right parenthesis
-                while (nextToken != null || nextToken.getType() != TokenType.RPAREN)
+                while (nextToken != null && nextToken.getType() != TokenType.RPAREN)
                 {
-                    var exp = parseExp(nextToken);
-                    if (exp == null)
+                    if (parseExp(nextToken) == null)
                         return null;
                     nextToken = scanner.getNextToken();
                 }
@@ -187,7 +189,7 @@ namespace Parse
             }
 
             //add a cons node with the exp on one branch and the rest on another branch
-            return new Cons(parseExp(tok), cdr);
+            return new Cons(exp, cdr);
         }
     }
 }
