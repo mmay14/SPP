@@ -31,7 +31,7 @@ namespace Parse
                 if (ch == -1)
                     return null;
                 // Skip white space
-               else if (ch == 0 || ch == 9 || ch == 10 || ch == 12 || ch == 13 || ch == 32)
+               else if (ch == 9 || ch == 10 || ch == 12 || ch == 13 || ch == 32)
                     return getNextToken();
                 // Skip comments
                 else if ((char)ch == ';')
