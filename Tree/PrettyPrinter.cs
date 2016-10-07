@@ -24,7 +24,7 @@ namespace Tree
 
         public static void printLambda(Node node, int indent, bool hasLeftParen)
         {
-            if (!hasParen)
+            if (!hasLeftParen)
             {
                 indention(indent);
                 Console.Write("(lambda");
@@ -87,9 +87,23 @@ namespace Tree
             terminate(indent);
         }
 
-        public static void printQuote(Node node, int indent, bool hasParen)
+        public static void printQuote(Node node, int indent, bool hasLeftParen)
         {
-            
+            if (!hasLeftParen)
+            {
+                Node cdr = node.getCdr();
+                if (cdr.isPair())
+                {
+                    indention(indent);
+                    Console.Write('\'');
+                    cdr.getCar().print(-(Math.Abs(indent) + 1), false);
+                    terminate(indent);
+                }
+                else
+                    printRegular(node, indent, hasLeftParen);
+            }
+            else
+                printRegular(node, indent, hasLeftParen);
         }
 
         public static void printIf(Node node, int indent, bool hasLeftParen)
@@ -213,15 +227,36 @@ namespace Tree
             }
         }
 
-        //TODO: implement
         private static void printRest(Node node, int indent)
         {
-            
+            Node cdr = node.getCdr();
+            if (cdr.isNull() || cdr.isPair())
+            {
+                cdr.print(indent, true);
+            }
+            else
+            {
+                if (indent >= 0)
+                    indention(indent);
+                else
+                    Console.Write(' ');
+                Console.Write(". ");
+                cdr.print(-Math.Abs(indent), false);
+                if (indent >= 0)
+                {
+                    Console.WriteLine();
+                    indention(indent - 4);
+                }
+                Console.Write(')');
+                terminate(indent);
+            }
         }
 
         private static void terminate(int indent)
         {
-            
+            if (indent < 0)
+                return;
+            Console.WriteLine();
         }
     }
 }

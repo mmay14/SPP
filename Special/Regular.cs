@@ -6,8 +6,6 @@ namespace Tree
 {
     public class Regular : Special
     {
-        // TODO: Add any fields needed.
-    
         // TODO: Add an appropriate constructor.
         public Regular() { }
 

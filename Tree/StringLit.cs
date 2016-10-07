@@ -15,11 +15,7 @@ namespace Tree
 
         public override void print(int n)
         {
-	    // There got to be a more efficient way to print n spaces.
-	    for (int i = 0; i < n; i++)
-                Console.Write(" ");
-
-            Console.WriteLine("\"" + stringVal + "\"");
+	        PrettyPrinter.printStringLit(n, stringVal);
         }
 
         public override bool isString()

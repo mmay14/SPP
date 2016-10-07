@@ -58,7 +58,11 @@ namespace Parse
 
         private Node parseExp(Token tok)
         {
-            if (tok.getType() == TokenType.LPAREN)
+            if (tok == null)
+            {
+                return null;
+            }
+            else if (tok.getType() == TokenType.LPAREN)
             {
                 return parseRest();
             }

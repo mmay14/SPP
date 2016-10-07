@@ -1,5 +1,7 @@
 // Node -- Base class for parse tree node objects
 
+using System;
+
 namespace Tree
 {
     public class Node
@@ -39,13 +41,30 @@ namespace Tree
         public virtual bool isNull()   { return false; }  // Nil
         public virtual bool isPair()   { return false; }  // Cons
 
-        // TODO: Report an error in these default methods and implement them
+        // Report an error in these default methods and implement them
         // in class Cons.  After setCar, a Cons cell needs to be `parsed' again
         // using parseList. 
-        public virtual Node getCar() { return null; }
-        public virtual Node getCdr() { return null; }
-        public virtual void setCar(Node a) { }
-        public virtual void setCdr(Node d) { }
+        public virtual Node getCar()
+        {
+            Console.Error.WriteLine("Node error: argument of car is not a pair.");
+            return null;
+        }
+
+        public virtual Node getCdr()
+        {
+            Console.Error.WriteLine("Node error: argument of cdr is not a pair.");
+            return null;
+        }
+
+        public virtual void setCar(Node a)
+        {
+            Console.Error.WriteLine("Node error: argument of set car is not a pair.");
+        }
+
+        public virtual void setCdr(Node d)
+        {
+            Console.Error.WriteLine("Node error: argument of set cdr is not a pair.");
+        }
 
         public virtual string getName()
         {

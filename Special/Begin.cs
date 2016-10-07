@@ -6,10 +6,8 @@ namespace Tree
 {
     public class Begin : Special
     {
-        // TODO: Add any fields needed.
- 
         // TODO: Add an appropriate constructor.
-	public Begin() { }
+	    public Begin() { }
 
         public override void print(Node t, int n, bool p)
         {

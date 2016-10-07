@@ -16,8 +16,6 @@ namespace Parse
 
         public Scanner(TextReader i) { In = i; }
   
-        // TODO: Add any other methods you need
-
         public Token getNextToken()
         {
             int ch;
@@ -42,6 +40,7 @@ namespace Parse
                     return getNextToken();
                 }
                 // Special characters
+                // TODO: make quote recognize ' and (quote)
                 else if ((char)ch == '\'')
                     return new Token(TokenType.QUOTE);
                 else if ((char)ch == '(')

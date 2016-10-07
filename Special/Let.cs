@@ -6,10 +6,8 @@ namespace Tree
 {
     public class Let : Special
     {
-        // TODO: Add any fields needed.
- 
         // TODO: Add an appropriate constructor.
-	public Let() { }
+	    public Let() { }
 
         public override void print(Node t, int n, bool p)
         {
