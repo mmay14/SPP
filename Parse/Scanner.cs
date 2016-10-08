@@ -128,6 +128,7 @@ namespace Parse
                     // scan an identifier into the buffer
                     int i = 0;
                     Char c = (char)ch;
+                    c = Char.ToLower(c);
                     buf[i] = c;
                     i++;
                     ch = In.Peek();
@@ -142,6 +143,7 @@ namespace Parse
                     {
                         ch = In.Read();
                         c = (char)ch;
+                        c = Char.ToLower(c);
                         buf[i] = c;
                         i++;
                         ch = In.Peek();
@@ -169,4 +171,6 @@ namespace Parse
     }
 
 }
+
+
 
