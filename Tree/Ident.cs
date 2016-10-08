@@ -22,7 +22,12 @@ namespace Tree
         {
             return true;
         }
-        
+
+        public override string getName()
+        {
+            return this.name;
+        }
+
     }
 }
 

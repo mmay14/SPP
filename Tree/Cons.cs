@@ -25,7 +25,7 @@ namespace Tree
         // parseList only look at the car for selecting the appropriate
         // object from the Special hierarchy and to leave the rest of
         // parsing up to the interpreter.
-        void parseList()
+        private void parseList()
         {
             if (!car.isSymbol())
             {
